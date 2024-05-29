@@ -10,11 +10,98 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Store{
+model Admin {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
-  userId String
+  email String @unique
+  password String
+  phone String
+  departmentId String
+  department Department @relation(fields: [departmentId], references: [id])
+  role String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  cases Case[] @relation("AdminToCase")
+  notifications Notification[] @relation("AdminToNotification")
+}
 
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  username String @unique
+  email String @unique
+  password String
+  phone String
+  address String
+  civicPoints Int @default(0)
+  civicPointsTransaction CivicPointTransaction[]
+  reportsCount Int @default(0)
+  reports Report[] @relation("UserToReport")
+  notifications Notification[] @relation("UserToNotification")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Report {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String
+  user User @relation("UserToReport", fields: [userId], references: [id])
+  description String
+  location String
+  date DateTime
+  evidenceUrl String
+  status String @default("Pending")
+  category String
+  severity String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  caseId String
+  @@index([userId])
+}
+
+model Case {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  adminId String
+  admin Admin @relation("AdminToCase", fields: [adminId], references: [id])
+  investigationStatus String @default("Ongoing")
+  investigationDetails String
+  resolution String?
+  punishment String?
+  reward String?
+  resolutionDate DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([adminId])
+}
+
+model CivicPointTransaction {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  points Int
+  transactionType String
+  description String
+  createdAt DateTime @default(now())
+  @@index([userId])
+}
+
+model Notification {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String?
+  user User? @relation("UserToNotification", fields: [userId], references: [id])
+  adminId String?
+  admin Admin? @relation("AdminToNotification", fields: [adminId], references: [id])
+  message String
+  read Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([userId])
+  @@index([adminId])
+}
+
+model Department {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  admins Admin[] @relation
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
