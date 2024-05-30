@@ -37,6 +37,7 @@ model User {
   reportsCount Int @default(0)
   reports Report[] @relation("UserToReport")
   notifications Notification[] @relation("UserToNotification")
+  violations Violation[] @relation("UserToViolation")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -103,5 +104,30 @@ model Department {
   name String
   admins Admin[] @relation
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt
+}
+
+model TrafficRule {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  ruleName       String
+  description    String
+  penaltyAmount  Float
+  violationPoints Int
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  violations     Violation[] @relation("TrafficRuleToViolation")
+}
+
+model Violation {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String
+  user           User     @relation("UserToViolation", fields: [userId], references: [id])
+  trafficRuleId  String
+  trafficRule    TrafficRule @relation("TrafficRuleToViolation", fields: [trafficRuleId], references: [id])
+  violationDate  DateTime
+  penaltyPaid    Boolean   @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  @@index([userId])
+  @@index([trafficRuleId])
 }
