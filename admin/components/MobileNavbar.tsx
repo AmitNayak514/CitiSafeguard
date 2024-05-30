@@ -8,9 +8,8 @@ import {
   SheetDescription,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import Sidebar from "@/components/Sidebar";
 import Link from "next/link";
-const MobileSidebar = () => {
+const MobileNavbar: React.FC = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -57,4 +56,4 @@ const MobileSidebar = () => {
     </Sheet>
   );
 };
-export default MobileSidebar;
+export default MobileNavbar;
