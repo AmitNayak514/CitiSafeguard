@@ -42,7 +42,7 @@ const Navbar = () => {
   return (
     <div className="">
       <div className="absolute backdrop-blur-sm top-0 left-0 right-0 flex z-[100] w-[96%] mx-auto px-2  py-4 justify-between items-center">
-        <div className="text-black dark:text-white">
+        <div className="text-white dark:text-white">
           <Link href="/" className="text-3xl font-bold">
             CitiSafeguard
           </Link>
