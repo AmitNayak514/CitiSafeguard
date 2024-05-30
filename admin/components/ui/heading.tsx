@@ -11,7 +11,9 @@ const Heading: React.FC<HeadingProps> = ({ title, description }) => {
       <h2 className="text-black/80 dark:text-white text-3xl font-semibold tracking-tight">
         {title}
       </h2>
-      <p className="text-sm text-muted-foreground"> {description}</p>
+      <p className="text-sm text-muted-foreground dark:text-white">
+        {description}
+      </p>
     </div>
   );
 };

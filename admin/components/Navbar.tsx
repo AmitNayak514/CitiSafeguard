@@ -18,23 +18,23 @@ const Navbar: React.FC = () => {
     },
     {
       label: "Laws",
-      href: "/laws",
-      active: pathname === `/laws`,
+      href: "/dashboard/laws",
+      active: pathname === `/dashboard/history`,
     },
     {
       label: "Reports",
-      href: "/reports",
-      active: pathname === `/report`,
+      href: "/dashboard/reports",
+      active: pathname === `/dashboard/history`,
     },
     {
       label: "Settings",
-      href: "/settings",
-      active: pathname === `/settings`,
+      href: "/dashboard/settings",
+      active: pathname === `/dashboard/history`,
     },
     {
       label: "History",
-      href: "/history",
-      active: pathname === `/history`,
+      href: "/dashboard/history",
+      active: pathname === `/dashboard/history`,
     },
   ];
 
@@ -46,14 +46,14 @@ const Navbar: React.FC = () => {
             CitiSafeguard
           </Link>
         </div>
-        <div className="text-black flex mr-auto dark:text-white">
-          <ul className="flex items-center gap-4 lg:gap-10">
+        <div className="text-black hidden md:flex mr-auto dark:text-white">
+          <ul className="flex items-center gap-2  md:gap-4 lg:gap-10">
             {routes.map((route) => (
               <Link
                 href={route.href}
                 key={route.label}
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary",
+                  "text-base font-medium transition-colors hover:text-primary",
                   route.active
                     ? "text-black dark:text-white"
                     : "text-muted-foreground"
@@ -67,6 +67,7 @@ const Navbar: React.FC = () => {
         <div className="ml-auto gap-6 flex items-center">
           <ModeToggle />
           <UserButton afterSignOutUrl="/" />
+          <MobileNavbar />
         </div>
       </div>
     </div>
