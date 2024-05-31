@@ -34,14 +34,14 @@ const MobileNavbar: React.FC = () => {
       active: pathname === `/dashboard/history`,
     },
     {
-      label: "Reports",
-      href: "/dashboard/reports",
-      active: pathname === `/dashboard/history`,
+      label: "Category",
+      href: "/dashboard/categories",
+      active: pathname === `/dashboard/categories`,
     },
     {
       label: "Settings",
       href: "/dashboard/settings",
-      active: pathname === `/dashboard/history`,
+      active: pathname === `/dashboard/settings`,
     },
     {
       label: "History",

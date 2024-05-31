@@ -179,7 +179,7 @@ const LawForm: React.FC<LawFormProps> = ({ initialData, categories }) => {
                     <SelectTrigger>
                       <SelectValue
                         defaultValue={field.value}
-                        placeholder="Select a billboard"
+                        placeholder="Select a Category"
                       />
                     </SelectTrigger>
                   </FormControl>
@@ -191,6 +191,28 @@ const LawForm: React.FC<LawFormProps> = ({ initialData, categories }) => {
                     ))}
                   </SelectContent>
                 </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="fine"
+            render={({ field }) => (
+              <FormItem className="mb-5">
+                <FormLabel>Fine</FormLabel>
+                <FormControl>
+                  {
+                    //@ts-ignore
+                    <Input
+                      type="number"
+                      required={false}
+                      disabled={loading}
+                      placeholder="Fine for the offense"
+                      {...field}
+                    />
+                  }
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
