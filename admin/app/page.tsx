@@ -9,7 +9,11 @@ const MainPage: React.FC = () => {
   } else {
     redirect("/dashboard");
   }
-  return <div></div>;
+  return (
+    <div className="flex flex-col">
+      <div className="flex-1 space-y-3 p-12 pt-6">Redirecting To Auth</div>
+    </div>
+  );
 };
 
 export default MainPage;

@@ -56,7 +56,7 @@ const MobileNavbar: React.FC = () => {
           variant="ghost"
           size="icon"
           className="md:hidden
-         text-white"
+         text-black dark:text-white"
         >
           <Menu />
         </Button>
