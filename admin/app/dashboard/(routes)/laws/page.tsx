@@ -10,9 +10,9 @@ const LawPage: React.FC = () => {
     <div className="flex flex-col space-y-3 p-12 pt-6">
       <div className="flex items-center justify-between">
         <Heading title="Laws" description="Add or remove laws or rules." />
-        <Link href={"/laws/new"}>
+        <Link href={"/dashboard/laws/new"}>
           <Button className="">
-            <Plus className="text-white mr-2 h-4 w-4" />
+            <Plus className="mr-2 h-4 w-4" />
             Add New
           </Button>
         </Link>
