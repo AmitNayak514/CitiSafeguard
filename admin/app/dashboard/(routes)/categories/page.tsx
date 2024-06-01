@@ -1,11 +1,22 @@
 import { Button } from "@/components/ui/button";
+import { DataTable } from "@/components/ui/data-table";
 import Heading from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import { CategoryColumn, columns } from "./components/columns";
+import prismadb from "@/lib/prismadb";
+import { format } from "date-fns";
 
-const CategoryPage = () => {
+const CategoryPage = async () => {
+  const categories = await prismadb.category.findMany();
+  const formattedCategories: CategoryColumn[] = categories.map((category) => ({
+    id: category.id,
+    name: category.name,
+    description: category.description,
+    createdAt: format(category.createdAt, "MMMM do, yyyy"),
+  }));
   return (
     <div className="flex flex-col space-y-3 p-12 pt-6">
       <div className="flex items-center justify-between">
@@ -20,7 +31,12 @@ const CategoryPage = () => {
           </Button>
         </Link>
       </div>
-      <Separator />
+      <Separator className="mb-4" />
+      <DataTable
+        searchKey="name"
+        data={formattedCategories}
+        columns={columns}
+      />
     </div>
   );
 };

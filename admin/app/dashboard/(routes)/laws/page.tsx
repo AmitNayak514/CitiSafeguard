@@ -4,8 +4,35 @@ import { Separator } from "@/components/ui/separator";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import { DataTable } from "@/components/ui/data-table";
+import prismadb from "@/lib/prismadb";
+import { LawColumn, columns } from "./components/columns";
+import { formatter } from "@/lib/utils";
+import { format } from "date-fns";
 
-const LawPage: React.FC = () => {
+const LawPage: React.FC = async () => {
+  const laws = await prismadb.laws.findMany({
+    include: {
+      category: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  const formattedLaws: LawColumn[] = laws.map((law) => ({
+    id: law.id,
+    name: law.name,
+    description: law.description,
+    sections: law.sections,
+    fine: formatter.format(law.fine),
+    firstOffenseFine: law.firstOffenseFine
+      ? formatter.format(law.firstOffenseFine)
+      : formatter.format(law.fine),
+    category: law.category.name,
+    applicableTo: law.applicableTo,
+    createdAt: format(law.createdAt, "MMMM do, yyyy"),
+  }));
+
   return (
     <div className="flex flex-col space-y-3 p-12 pt-6">
       <div className="flex items-center justify-between">
@@ -17,7 +44,8 @@ const LawPage: React.FC = () => {
           </Button>
         </Link>
       </div>
-      <Separator />
+      <Separator className="mb-4" />
+      <DataTable searchKey="name" data={formattedLaws} columns={columns} />
     </div>
   );
 };
