@@ -8,6 +8,7 @@ import {
 import { Card } from "./ui/card";
 import { ExternalLink } from "lucide-react";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 export const revalidate = 0;
 
@@ -25,7 +26,7 @@ const LawsCard = ({ data }: { data: any }) => {
             className="w-full h-full border-none border-b-0 outline-none space-y-2"
           >
             <AccordionItem value="hello">
-              <AccordionTrigger className="md:mx-6 mx-2 font-bold text-lg md:text-xl lg:text-2xl">
+              <AccordionTrigger className="md:mx-6 mx-2 font-bold text-lg text-[#333] focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none dark:text-white md:text-xl lg:text-2xl">
                 {law?.name}
               </AccordionTrigger>
               <AccordionContent className="md:mx-9 mx-2 mt-0 text-lg text-black/85 dark:text-white space-y-4">
@@ -47,7 +48,10 @@ const LawsCard = ({ data }: { data: any }) => {
                       {law.name} <ExternalLink className="w-3 h-3" />
                     </span>
                   </p>
-                  <Button>Report</Button>
+                  <Link href={`/report/${law.id}`}>
+                    {" "}
+                    <Button>Report</Button>
+                  </Link>
                 </div>
               </AccordionContent>
             </AccordionItem>

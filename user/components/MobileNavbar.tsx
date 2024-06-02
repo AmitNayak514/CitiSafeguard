@@ -35,7 +35,7 @@ const MobileNavbar = () => {
     {
       label: "Reports",
       href: "/reports",
-      active: pathname === `/reports`,
+      active: pathname === `/report`,
     },
     {
       label: "Documents",

@@ -30,8 +30,8 @@ const Navbar: React.FC<NavbarProps> = ({ displayButton, className }) => {
     },
     {
       label: "Reports",
-      href: "/reports",
-      active: pathname === `/reports`,
+      href: "/report",
+      active: pathname === `/report`,
     },
     {
       label: "Documents",
@@ -69,7 +69,7 @@ const Navbar: React.FC<NavbarProps> = ({ displayButton, className }) => {
           </Link>
         </div>
         <div
-          className={`text-black dark:text-white hidden md:inline-block  ${
+          className={`text-black/60 dark:text-muted-foreground hidden md:inline-block  ${
             displayButton ? "text-white" : ""
           }`}
         >
@@ -79,7 +79,7 @@ const Navbar: React.FC<NavbarProps> = ({ displayButton, className }) => {
                 href={route.href}
                 key={route.label}
                 className={cn(
-                  pathname === route.href ? `font-bold` : ``,
+                  route.active ? `font-bold text-black dark:text-white` : ``,
                   `py-1.5 cursor-pointer px-2 rounded-xl list-none`
                 )}
               >

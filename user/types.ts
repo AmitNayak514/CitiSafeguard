@@ -15,3 +15,11 @@ export interface Category {
   name: string;
   description: string;
 }
+
+export interface Report {
+  id: string;
+  description: string;
+  vehicleNumber?: string;
+  latitude?: number;
+  longitude?: number;
+}
