@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 const MobileNavbar = () => {
   const [isMounted, setIsMounted] = useState(false);
-  const pathName = usePathname();
+  const pathname = usePathname();
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -23,24 +23,29 @@ const MobileNavbar = () => {
   }
   const routes = [
     {
-      label: "Cases",
-      href: "/cases",
+      label: "Home",
+      href: "/home",
+      active: pathname === `/home`,
     },
     {
-      label: "History",
-      href: "/history",
+      label: "Laws",
+      href: "/laws",
+      active: pathname === `/laws`,
     },
     {
       label: "Reports",
       href: "/reports",
+      active: pathname === `/reports`,
     },
     {
       label: "Documents",
       href: "/documents",
+      active: pathname === `/documents`,
     },
     {
       label: "Community",
       href: "/community",
+      active: pathname === `/community`,
     },
   ];
 
@@ -66,7 +71,9 @@ const MobileNavbar = () => {
               href={route.href}
               key={route.label}
               className={cn(
-                pathName === route.href ? `bg-white/10` : ``,
+                route.active
+                  ? `text-black dark:text-white`
+                  : `text-muted-foreground`,
                 `hover:bg-white/10 py-1.5 cursor-pointer px-4 rounded-xl list-none`
               )}
             >

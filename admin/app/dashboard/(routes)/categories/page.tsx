@@ -8,13 +8,14 @@ import React from "react";
 import { CategoryColumn, columns } from "./components/columns";
 import prismadb from "@/lib/prismadb";
 import { format } from "date-fns";
+import { truncateText } from "@/lib/utils";
 
 const CategoryPage = async () => {
   const categories = await prismadb.category.findMany();
   const formattedCategories: CategoryColumn[] = categories.map((category) => ({
     id: category.id,
     name: category.name,
-    description: category.description,
+    description: truncateText(category.description, 130),
     createdAt: format(category.createdAt, "MMMM do, yyyy"),
   }));
   return (

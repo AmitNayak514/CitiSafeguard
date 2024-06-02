@@ -1,16 +1,17 @@
 import prismadb from "@/lib/prismadb";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
     const { userId } = auth();
-    console.log(userId);
+
+    if (!userId) {
+      return new NextResponse("Unauthenticated", { status: 401 });
+    }
+
     const body = await req.json();
     const { name, description } = body;
-    //   if (!userId) {
-    //     return new NextResponse("Unauthenticated", { status: 401 });
-    //   }
     if (!name) {
       return new NextResponse("Name is required", { status: 400 });
     }
@@ -32,8 +33,8 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    const laws = await prismadb.laws.findMany({});
-    return NextResponse.json(laws);
+    const categories = await prismadb.category.findMany({});
+    return NextResponse.json(categories);
   } catch (error) {
     console.log("[CATEGORY_GET]", error);
     return new NextResponse("Internal error", { status: 500 });

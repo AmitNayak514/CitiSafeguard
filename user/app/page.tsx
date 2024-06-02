@@ -9,7 +9,12 @@ import Image from "next/image";
 export default function Home() {
   return (
     <main className="overflow-hidden">
-      <Navbar />
+      <div className="mb-2">
+        <Navbar
+          className={"absolute top-0 left-0 right-0 z-[100]"}
+          displayButton={true}
+        />
+      </div>
       <div className="bg-neutral-950 flex flex-col -mt-24 md:-mt-16 lg:-mt-20 xl:-mt-24">
         <ContainerScroll
           titleComponent={

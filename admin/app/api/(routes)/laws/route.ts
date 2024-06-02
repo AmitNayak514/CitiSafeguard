@@ -1,5 +1,5 @@
 import prismadb from "@/lib/prismadb";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -17,9 +17,9 @@ export async function POST(req: Request) {
       imprisonment,
       applicableTo,
     } = body;
-    //   if (!userId) {
-    //     return new NextResponse("Unauthenticated", { status: 401 });
-    //   }
+    if (!userId) {
+      return new NextResponse("Unauthenticated", { status: 401 });
+    }
     if (!categoryId) {
       return new NextResponse("CategoryID is required", { status: 400 });
     }
@@ -34,9 +34,6 @@ export async function POST(req: Request) {
     }
     if (!fine) {
       return new NextResponse("Fill the fine amount for this", { status: 400 });
-    }
-    if (!imprisonment) {
-      return new NextResponse("This section are required", { status: 400 });
     }
     if (!applicableTo) {
       return new NextResponse("This section is required", { status: 400 });
@@ -63,8 +60,8 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    const { searchParams } = new URL(req.url);
-    const laws = await prismadb.laws.findMany({});
+    const laws = await prismadb.laws.findMany({ include: { category: true } });
+    console.log(laws);
     return NextResponse.json(laws);
   } catch (error) {
     console.log("[LAWS_GET]", error);

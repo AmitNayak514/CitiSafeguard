@@ -9,6 +9,7 @@ import prismadb from "@/lib/prismadb";
 import { LawColumn, columns } from "./components/columns";
 import { formatter } from "@/lib/utils";
 import { format } from "date-fns";
+import { truncateText } from "@/lib/utils";
 
 const LawPage: React.FC = async () => {
   const laws = await prismadb.laws.findMany({
@@ -22,7 +23,7 @@ const LawPage: React.FC = async () => {
   const formattedLaws: LawColumn[] = laws.map((law) => ({
     id: law.id,
     name: law.name,
-    description: law.description,
+    description: truncateText(law.description, 50),
     sections: law.sections,
     fine: formatter.format(law.fine),
     firstOffenseFine: law.firstOffenseFine

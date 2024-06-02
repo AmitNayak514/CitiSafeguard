@@ -44,7 +44,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   const title = initialData ? "Edit Category." : "Create Category.";
   const description = initialData ? "Edit a Category." : "Add a New Category.";
   const toastMessage = initialData ? "Category Updated." : "Category Created.";
-  const action = initialData ? "Save Changes." : "Create.";
+  const action = initialData ? "Save Changes" : "Create";
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
