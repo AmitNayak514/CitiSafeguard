@@ -160,9 +160,10 @@ model Category{
 model Report{
   id   String   @id @default(auto()) @map("_id") @db.ObjectId
   description String
+  vehicleNumber String?
   images Image[]
-  latitude Int?
-  longitude Int?
+  latitude Float?
+  longitude Float?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

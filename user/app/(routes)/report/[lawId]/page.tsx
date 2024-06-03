@@ -27,7 +27,6 @@ const formSchema = z.object({
 });
 
 const Page = () => {
-  const [data, setData] = useState({});
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,22 +35,22 @@ const Page = () => {
       vehicleNumber: "" || null,
     },
   });
-
+  var data: any;
   const onSubmit = async (formData: z.infer<typeof formSchema>) => {
     try {
-      const location = navigator.geolocation.getCurrentPosition((position) => {
+      await navigator.geolocation.getCurrentPosition((position) => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
-        setData({
-          ...formData,
-          latitude: latitude,
-          longitude: longitude,
-        });
+        data = { ...formData, latitude: latitude, longitude: longitude };
       });
       if (data) {
+        console.log("Data");
+        console.log(data);
         await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/report`, data);
         toast.success("Report ticket raised successfully");
       } else {
+        console.log("Form Data");
+        console.log(formData);
         await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/report`, formData);
         toast.success("Report ticket raised successfully");
       }
