@@ -143,6 +143,7 @@ model Laws{
   fine Float
   imprisonment String?
   applicableTo String
+  reports Report[] @relation("ReportsToLaw")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   @@index([categoryId])
@@ -159,7 +160,14 @@ model Category{
 
 model Report{
   id   String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId String
+  userName String
+  user User @relation("ReportsToUser",fields: [userId], references: [id])
+  lawId String
+  law Laws @relation("ReportsToLaw",fields: [lawId], references: [id])
   description String
+  isApproved Boolean @default(false)
+  isRejected Boolean @default(false)
   vehicleNumber String?
   images Image[]
   latitude Float?
@@ -175,4 +183,10 @@ model Image{
   updatedAt DateTime @updatedAt
   reportId String
   report Report @relation(fields: [reportId],references: [id])
+}
+
+model User{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String
+  reports Report[] @relation("ReportsToUser")
 }

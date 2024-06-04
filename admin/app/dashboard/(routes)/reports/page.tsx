@@ -1,0 +1,99 @@
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import Heading from "@/components/ui/heading";
+import { Separator } from "@/components/ui/separator";
+import prismadb from "@/lib/prismadb";
+import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+
+const ReportPage: React.FC = async () => {
+  const reports = await prismadb.report.findMany({
+    where: {
+      isApproved: false,
+      isRejected: false,
+    },
+    include: {
+      images: true,
+    },
+  });
+  const isVideo = (url: string) => {
+    const videoExtensions = ["mp4", "avi", "mov", "wmv", "flv", "mkv"];
+    const extension = url.split(".").pop();
+    return videoExtensions.includes(extension?.toLowerCase() || "");
+  };
+  return (
+    <div className="flex flex-col space-y-3 p-12 pt-6 ">
+      <div className="flex items-center justify-between">
+        <Heading
+          title="Reports"
+          description="Approve or Reject reports after verifying"
+        />
+      </div>
+      <Separator />
+      <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
+        {reports.map((report) => (
+          <Card key={report.id} className="">
+            <CardHeader>
+              <h1 className="text-wrap text-xl">{report.lawId}</h1>
+            </CardHeader>
+            <CardContent className="text-lg text-[#333] dark:text-white">
+              <CardContent>Username:{report.userName}</CardContent>
+              <CardDescription>
+                Description:{report.description}
+              </CardDescription>
+              {report.latitude && report.longitude && (
+                <CardDescription>
+                  Location:({report.latitude},{report.longitude})
+                </CardDescription>
+              )}
+              <CardDescription>
+                Description:{report.description}
+              </CardDescription>
+              <CardContent>
+                Evidence Submitted:
+                {report.images.map((image) => (
+                  <Link
+                    href={image.url}
+                    key={image.id}
+                    className="relative w-[200px] h-[200px]"
+                  >
+                    {isVideo(image.url) ? (
+                      <video className="object-cover w-full h-full" autoPlay>
+                        <source src={image.url} type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+                    ) : (
+                      <div className="relative w-[200px] h-[200px]">
+                        <Image
+                          fill
+                          className="object-cover"
+                          alt="Image"
+                          src={image.url}
+                        />
+                      </div>
+                    )}
+                  </Link>
+                ))}
+              </CardContent>
+            </CardContent>
+            <CardFooter className="flex items-center px-3 justify-between">
+              <Button>Approve</Button>
+              <Button variant={"destructive"}>Reject</Button>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default ReportPage;

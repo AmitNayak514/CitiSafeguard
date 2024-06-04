@@ -27,6 +27,11 @@ const Navbar: React.FC = () => {
       active: pathname === `/dashboard/categories`,
     },
     {
+      label: "Reports",
+      href: "/dashboard/reports",
+      active: pathname === `/dashboard/reports`,
+    },
+    {
       label: "Settings",
       href: "/dashboard/settings",
       active: pathname === `/dashboard/settings`,
