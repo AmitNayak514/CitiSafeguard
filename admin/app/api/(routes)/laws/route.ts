@@ -68,3 +68,27 @@ export async function GET(req: Request) {
     return new NextResponse("Internal error", { status: 500 });
   }
 }
+
+// export async function DELETE(
+//   req: Request,
+//   { params }: { params: { categoryId: string } }
+// ) {
+//   try{
+//     const { userId } = auth();
+//     if (!userId) {
+//       return new NextResponse("Unauthenticated", { status: 401 });
+//     }
+
+//     if (!params.categoryId) {
+//       return new NextResponse("Category ID is required", { status: 400 });
+//     }
+
+//     const categories = await prismadb.category.deleteMany({
+//       where: {
+//         id: params.categoryId,
+//       },
+//     });
+//   }catch{
+
+//   }
+// }
