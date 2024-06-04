@@ -87,7 +87,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
     <div className="">
       <div className="flex items-center justify-between mb-3">
         <Heading title={title} description={description} />
-        {true && (
+        {initialData && (
           <Button
             variant="destructive"
             size={"sm"}

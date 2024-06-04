@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     });
     return NextResponse.json(category);
   } catch (error) {
-    console.log("[CATEGORY_POST]", error); //change it later
+    console.log("[CATEGORY_POST]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }

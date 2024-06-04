@@ -136,7 +136,7 @@ model Laws{
   id   String   @id @default(auto()) @map("_id") @db.ObjectId
   name String
   categoryId String
-  category Category @relation("CategoryToLaws",fields: [categoryId],references: [id])
+  category Category @relation("CategoryToLaws",fields: [categoryId],references: [id],onDelete: Cascade)
   description String
   sections String
   firstOffenseFine Float?
@@ -188,5 +188,7 @@ model Image{
 model User{
   id String @id @default(auto()) @map("_id") @db.ObjectId
   userId String
+  userName String
+  civicPoints Int @default(0)
   reports Report[] @relation("ReportsToUser")
 }

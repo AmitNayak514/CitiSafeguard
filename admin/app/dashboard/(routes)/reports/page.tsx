@@ -60,8 +60,8 @@ const ReportPage: React.FC = async () => {
               <CardDescription className="text-[#333] dark:text-white">
                 Description:{report.description}
               </CardDescription>
-              <CardContent>
-                Evidence Submitted:
+              <CardContent className="">
+                <h1>Evidence Submitted:</h1>
                 {report.images.map((image) => (
                   <Link
                     href={image.url}
