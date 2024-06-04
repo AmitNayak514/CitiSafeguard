@@ -42,20 +42,22 @@ const ReportPage: React.FC = async () => {
       <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
         {reports.map((report) => (
           <Card key={report.id} className="">
-            <CardHeader>
-              <h1 className="text-wrap text-xl">{report.lawId}</h1>
+            <CardHeader className="flex items-center justify-center">
+              <h1 className="text-wrap text-lg">{report.lawId}</h1>
             </CardHeader>
-            <CardContent className="text-lg text-[#333] dark:text-white">
-              <CardContent>Username:{report.userName}</CardContent>
-              <CardDescription>
+            <CardContent className="text-lg h-96 text-[#333] flex flex-col items-start dark:text-white space-y-3 ">
+              <CardDescription className="text-[#333] dark:text-white">
+                Username:{report.userName}
+              </CardDescription>
+              <CardDescription className="text-[#333] dark:text-white">
                 Description:{report.description}
               </CardDescription>
               {report.latitude && report.longitude && (
-                <CardDescription>
+                <CardDescription className="text-[#333] dark:text-white">
                   Location:({report.latitude},{report.longitude})
                 </CardDescription>
               )}
-              <CardDescription>
+              <CardDescription className="text-[#333] dark:text-white">
                 Description:{report.description}
               </CardDescription>
               <CardContent>
@@ -85,7 +87,7 @@ const ReportPage: React.FC = async () => {
                 ))}
               </CardContent>
             </CardContent>
-            <CardFooter className="flex items-center px-3 justify-between">
+            <CardFooter className="flex items-center px-6 justify-between">
               <Button>Approve</Button>
               <Button variant={"destructive"}>Reject</Button>
             </CardFooter>

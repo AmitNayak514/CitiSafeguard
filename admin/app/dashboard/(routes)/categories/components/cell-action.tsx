@@ -12,7 +12,7 @@ import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
-// import AlertModal from "@/components/modals/alert-modal";
+import DeleteModal from "@/components/modals/delete-modal";
 interface CellActionProps {
   data: CategoryColumn;
 }
@@ -42,12 +42,12 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
   };
   return (
     <div>
-      {/* <AlertModal
+      <DeleteModal
         isOpen={open}
         onClose={() => setOpen(false)}
         onConfirm={onDelete}
         loading={loading}
-      /> */}
+      />
       <DropdownMenu>
         <DropdownMenuTrigger
           asChild
