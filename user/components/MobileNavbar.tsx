@@ -11,7 +11,7 @@ import {
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
-const MobileNavbar = () => {
+const MobileNavbar = ({ landingPage }: { landingPage: boolean }) => {
   const [isMounted, setIsMounted] = useState(false);
   const pathname = usePathname();
   useEffect(() => {
@@ -51,21 +51,25 @@ const MobileNavbar = () => {
 
   return (
     <Sheet>
-      <SheetTrigger className="c">
+      <SheetTrigger className="">
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden
-         text-white"
+          className="lg:hidden
+         "
         >
-          <Menu />
+          <Menu
+            className={`${
+              landingPage ? "text-white " : "dark:text-white text-black"
+            }`}
+          />
         </Button>
       </SheetTrigger>
       <SheetContent
         side="left"
-        className="w-[25vw] pt-12 flex items-start justify-center"
+        className="w-[25vw] h-screen pt-12 flex items-start justify-center absolute z-[100]"
       >
-        <div className="flex flex-col items-start justify-between gap-8 text-lg font-semibold  md:hidden">
+        <div className="flex flex-col  items-start justify-between gap-8 text-lg font-semibold  lg:hidden">
           {routes.map((route) => (
             <Link
               href={route.href}
@@ -73,8 +77,8 @@ const MobileNavbar = () => {
               className={cn(
                 route.active
                   ? `text-black dark:text-white`
-                  : `text-muted-foreground`,
-                `hover:bg-white/10 py-1.5 cursor-pointer px-4 rounded-xl list-none`
+                  : `text-black/60 dark:text-muted-foreground`,
+                `hover:bg-white/10 py-1.5 cursor-pointer  px-4 rounded-xl list-none`
               )}
             >
               {route.label}

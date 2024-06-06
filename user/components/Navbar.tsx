@@ -1,56 +1,25 @@
-"use client";
 import { MenuIcon } from "lucide-react";
-import Link from "next/link";
 import MobileNavbar from "./MobileNavbar";
 import { Button } from "./ui/button";
-import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 import { ModeToggle } from "./ui/mode-toggle";
+import Points from "@/components/Points";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import NavLinks from "./NavLinks";
+import getPoints from "@/actions/get-points";
+import { auth } from "@clerk/nextjs/server";
+import { UserButton } from "@clerk/nextjs";
 
 interface NavbarProps {
   displayButton?: boolean;
   className?: string;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ displayButton, className }) => {
-  const pathname = usePathname();
-  const [mounted, setMounted] = useState(false);
-
-  const routes = [
-    {
-      label: "Home",
-      href: "/home",
-      active: pathname === `/home`,
-    },
-    {
-      label: "Laws",
-      href: "/laws",
-      active: pathname === `/laws`,
-    },
-    {
-      label: "Reports",
-      href: "/report",
-      active: pathname === `/report`,
-    },
-    {
-      label: "Documents",
-      href: "/documents",
-      active: pathname === `/documents`,
-    },
-    {
-      label: "Community",
-      href: "/community",
-      active: pathname === `/community`,
-    },
-  ];
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
-
+const Navbar: React.FC<NavbarProps> = async ({ displayButton, className }) => {
+  const { userId } = auth();
+  if (!userId) return null;
+  const points = await getPoints(userId);
+  console.log(points);
   return (
     <div className="border-b border-gray-400/30 dark:border-gray-50/15">
       <div
@@ -69,39 +38,31 @@ const Navbar: React.FC<NavbarProps> = ({ displayButton, className }) => {
           </Link>
         </div>
         <div
-          className={`text-black/60 dark:text-muted-foreground hidden md:inline-block  ${
+          className={`text-black/60 dark:text-muted-foreground hidden lg:inline-block  ${
             displayButton ? "text-white" : ""
           }`}
         >
-          <ul className="flex items-center gap-4 lg:gap-10">
-            {routes.map((route) => (
-              <Link
-                href={route.href}
-                key={route.label}
-                className={cn(
-                  route.active ? `font-bold text-black dark:text-white` : ``,
-                  `py-1.5 cursor-pointer px-2 rounded-xl list-none`
-                )}
-              >
-                {route.label}
-              </Link>
-            ))}
-          </ul>
+          <NavLinks />
         </div>
         <div className="flex items-center gap-4">
           {displayButton && (
-            <Button
-              // href="/dashboard"
-              className="relative cursor-pointer items-center gap-4 inline-flex h-10 overflow-hidden rounded-full p-[2px] focus:outline-none focus:ring-offset-0 "
-            >
-              <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
-              <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
-                Get Started
-              </span>
-            </Button>
+            <Link href="/home">
+              <Button className="relative cursor-pointer items-center gap-4 inline-flex h-10 overflow-hidden rounded-full p-[2px] focus:outline-none focus:ring-offset-0 ">
+                <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+                <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
+                  Get Started
+                </span>
+              </Button>
+            </Link>
           )}
-          <MobileNavbar />
-          {!displayButton && <ModeToggle />}
+          {!displayButton && (
+            <div className="flex items-center gap-3">
+              <Points points={points} />
+              <ModeToggle />
+              <UserButton afterSignOutUrl="/sign-in" />
+            </div>
+          )}
+          <MobileNavbar landingPage={displayButton || false} />
         </div>
       </div>
     </div>
