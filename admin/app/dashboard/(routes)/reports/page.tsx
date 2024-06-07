@@ -15,22 +15,8 @@ import prismadb from "@/lib/prismadb";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { ApproveButton } from "@/components/ApproveButton";
 
-interface Report {
-  id: string;
-  userId: string;
-  userName: string;
-  lawId: string;
-  description: string;
-  vehicleNumber?: string;
-  images: { id: string; url: string }[];
-  latitude?: number;
-  longitude?: number;
-  createdAt: string;
-  updatedAt: string;
-  isApproved?: boolean;
-  isRejected?: boolean;
-}
 
 const ReportPage: React.FC = async () => {
   const reports = await prismadb.report.findMany({
@@ -43,25 +29,6 @@ const ReportPage: React.FC = async () => {
     },
   });
 
-<<<<<<< HEAD
-=======
-  const handleReportAction = async (reportId: string, action: "approve" | "reject") => {
-    const response = await fetch("/api/handleReport", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ reportId }),
-    });
-
-    if (response.ok) {
-      window.location.reload();
-    } else {
-      console.error("Failed to update report");
-    }
-  };
-
->>>>>>> 48ce370bdcd7d46015a1c4276a2d46320e194c57
   const isVideo = (url: string) => {
     const videoExtensions = ["mp4", "avi", "mov", "wmv", "flv", "mkv"];
     const extension = url.split(".").pop();
@@ -123,8 +90,7 @@ const ReportPage: React.FC = async () => {
               </CardContent>
             </CardContent>
             <CardFooter className="flex items-center px-6 justify-between">
-              <Button onClick={() => handleReportAction(report.id, "approve")}>Approve</Button>
-              <Button onClick={() => handleReportAction(report.id, "reject")} variant={"destructive"}>Reject</Button>
+              <ApproveButton id={report.id}/>
             </CardFooter>
           </Card>
         ))}
