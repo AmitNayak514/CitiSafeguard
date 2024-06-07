@@ -1,3 +1,5 @@
+import React from "react";
+import handleReport from "@/app/api/(routes)/handleReport/route";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,7 +15,22 @@ import prismadb from "@/lib/prismadb";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+
+interface Report {
+  id: string;
+  userId: string;
+  userName: string;
+  lawId: string;
+  description: string;
+  vehicleNumber?: string;
+  images: { id: string; url: string }[];
+  latitude?: number;
+  longitude?: number;
+  createdAt: string;
+  updatedAt: string;
+  isApproved?: boolean;
+  isRejected?: boolean;
+}
 
 const ReportPage: React.FC = async () => {
   const reports = await prismadb.report.findMany({
@@ -26,6 +43,25 @@ const ReportPage: React.FC = async () => {
     },
   });
 
+<<<<<<< HEAD
+=======
+  const handleReportAction = async (reportId: string, action: "approve" | "reject") => {
+    const response = await fetch("/api/handleReport", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ reportId }),
+    });
+
+    if (response.ok) {
+      window.location.reload();
+    } else {
+      console.error("Failed to update report");
+    }
+  };
+
+>>>>>>> 48ce370bdcd7d46015a1c4276a2d46320e194c57
   const isVideo = (url: string) => {
     const videoExtensions = ["mp4", "avi", "mov", "wmv", "flv", "mkv"];
     const extension = url.split(".").pop();
@@ -33,7 +69,7 @@ const ReportPage: React.FC = async () => {
   };
 
   return (
-    <div className="flex flex-col space-y-3 p-12 pt-6 ">
+    <div className="flex flex-col space-y-3 p-12 pt-6">
       <div className="flex items-center justify-between">
         <Heading
           title="Reports"
@@ -47,22 +83,19 @@ const ReportPage: React.FC = async () => {
             <CardHeader className="flex items-center justify-center">
               <h1 className="text-wrap text-lg">{report.lawId}</h1>
             </CardHeader>
-            <CardContent className="text-lg h-96 text-[#333] flex flex-col items-start dark:text-white space-y-3 ">
+            <CardContent className="text-lg h-96 text-[#333] flex flex-col items-start dark:text-white space-y-3">
               <CardDescription className="text-[#333] dark:text-white">
-                Username:{report.userName}
+                Username: {report.userName}
               </CardDescription>
               <CardDescription className="text-[#333] dark:text-white">
-                Description:{report.description}
+                Description: {report.description}
               </CardDescription>
               {report.latitude && report.longitude && (
                 <CardDescription className="text-[#333] dark:text-white">
-                  Location:({report.latitude},{report.longitude})
+                  Location: ({report.latitude}, {report.longitude})
                 </CardDescription>
               )}
-              <CardDescription className="text-[#333] dark:text-white">
-                Description:{report.description}
-              </CardDescription>
-              <CardContent className="">
+              <CardContent>
                 <h1>Evidence Submitted:</h1>
                 {report.images.map((image) => (
                   <Link
@@ -90,8 +123,8 @@ const ReportPage: React.FC = async () => {
               </CardContent>
             </CardContent>
             <CardFooter className="flex items-center px-6 justify-between">
-              <Button>Approve</Button>
-              <Button variant={"destructive"}>Reject</Button>
+              <Button onClick={() => handleReportAction(report.id, "approve")}>Approve</Button>
+              <Button onClick={() => handleReportAction(report.id, "reject")} variant={"destructive"}>Reject</Button>
             </CardFooter>
           </Card>
         ))}
