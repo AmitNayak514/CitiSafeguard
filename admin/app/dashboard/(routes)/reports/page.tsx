@@ -25,11 +25,13 @@ const ReportPage: React.FC = async () => {
       images: true,
     },
   });
+
   const isVideo = (url: string) => {
     const videoExtensions = ["mp4", "avi", "mov", "wmv", "flv", "mkv"];
     const extension = url.split(".").pop();
     return videoExtensions.includes(extension?.toLowerCase() || "");
   };
+
   return (
     <div className="flex flex-col space-y-3 p-12 pt-6 ">
       <div className="flex items-center justify-between">

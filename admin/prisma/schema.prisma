@@ -187,8 +187,20 @@ model Image{
 
 model User{
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String
-  userName String
+  userId String @unique
   civicPoints Int @default(0)
   reports Report[] @relation("ReportsToUser")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
+// model User{
+//   id String @id @default(auto()) @map("_id") @db.ObjectId
+//   userId String @unique
+//   userFullName String
+//   email String
+//   profileImageUrl String
+//   civicPoints Int @default(0)
+//   reports Report[] @relation("ReportsToUser")
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }

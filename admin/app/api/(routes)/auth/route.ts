@@ -1,34 +1,53 @@
 import prismadb from "@/lib/prismadb";
 import { NextRequest, NextResponse } from "next/server";
 
+export const revalidate = 0;
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+export async function OPTIONS() {
+  return NextResponse.json({}, { headers: corsHeaders });
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { userId, userName } = body;
+    const { userId } = body;
     if (!userId) {
-      return new NextResponse("User ID is required", { status: 401 });
+      return new NextResponse("User ID is required", {
+        status: 401,
+        headers: corsHeaders,
+      });
     }
-    if (!userName) {
-      return new NextResponse("User Name is required", { status: 401 });
-    }
+
     const user = await prismadb.user.findFirst({
       where: {
         userId,
       },
     });
+
     if (user) {
-      return new NextResponse("User Exists", { status: 204 });
+      return new NextResponse(null, {
+        status: 204,
+        headers: corsHeaders,
+      });
     } else {
-      const user = await prismadb.user.create({
+      const newUser = await prismadb.user.create({
         data: {
           userId,
-          userName,
         },
       });
-      return NextResponse.json(user);
+      return NextResponse.json(newUser, { headers: corsHeaders });
     }
   } catch (error) {
-    console.log("[USER_POST]", error);
-    return new NextResponse("Internal error", { status: 500 });
+    console.log("[AUTH_POST]", error);
+    return new NextResponse("Internal error", {
+      status: 500,
+      headers: corsHeaders,
+    });
   }
 }
