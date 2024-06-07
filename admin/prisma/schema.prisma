@@ -166,8 +166,8 @@ model Report{
   lawId String
   law Laws @relation("ReportsToLaw",fields: [lawId], references: [id])
   description String
-  // isApproved Boolean @default(false)
-  // isRejected Boolean @default(false)
+  isApproved Boolean @default(false)
+  isRejected Boolean @default(false)
   vehicleNumber String?
   images Image[]
   latitude Float?

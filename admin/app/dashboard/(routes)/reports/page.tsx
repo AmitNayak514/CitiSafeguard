@@ -16,7 +16,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { ApproveButton } from "@/components/ApproveButton";
-
+import { RejectButton } from "@/components/RejectButton";
 
 const ReportPage: React.FC = async () => {
   const reports = await prismadb.report.findMany({
@@ -90,7 +90,8 @@ const ReportPage: React.FC = async () => {
               </CardContent>
             </CardContent>
             <CardFooter className="flex items-center px-6 justify-between">
-              <ApproveButton id={report.id}/>
+              <ApproveButton id={report.id} userId={report.userId} />
+              <RejectButton id={report.id} userId={report.userId} />
             </CardFooter>
           </Card>
         ))}
