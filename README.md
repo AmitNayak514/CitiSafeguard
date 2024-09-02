@@ -108,10 +108,6 @@ To test the API endpoints, you can use Thunder Client (VS Code extension) or Pos
 
 Feel free to fork this repository, create new branches, and submit pull requests for new features or bug fixes.
 
-## License
-
-This project is licensed under the MIT License.
-
 ## Contact
 
 For any questions or support, please reach out to:
