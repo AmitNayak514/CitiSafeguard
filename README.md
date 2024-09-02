@@ -212,5 +212,6 @@ Feel free to fork this repository, create new branches, and submit pull requests
 For any questions or support, please reach out to:
 
 - GitHub: [dshreyash-108](https://github.com/dshreyash-108/)
+- GitHub: [AmitNayak514](https://github.com/AmitNayak514/)
 
 --- 
